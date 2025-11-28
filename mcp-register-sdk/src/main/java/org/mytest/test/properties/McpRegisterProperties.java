@@ -20,6 +20,8 @@ public class McpRegisterProperties {
 
     private String moduleVersion;
 
+    private ReportConfiguration report;
+
 
     public static class ReportConfiguration {
         private AddressSource addressSource = AddressSource.FIXED;
