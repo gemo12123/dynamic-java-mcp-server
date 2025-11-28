@@ -17,7 +17,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>webmvc-dynamic-mcp-server</module>
-        <module>webflux-dynamic-mcp-server</module>
+        <module>mcp-register-sdk</module>
     </modules>
 
     <properties>
