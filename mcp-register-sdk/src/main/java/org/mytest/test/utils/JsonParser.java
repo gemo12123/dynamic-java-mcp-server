@@ -1,5 +1,6 @@
 package org.mytest.test.utils;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
@@ -138,5 +139,13 @@ public class JsonParser {
 
         String json = JsonParser.toJson(value);
         return JsonParser.fromJson(json, javaType);
+    }
+
+    public static JsonNode readTree(String json) {
+        try {
+            return OBJECT_MAPPER.readTree(json);
+        } catch (Exception e) {
+            throw new IllegalStateException("Conversion from Object to JSON failed", e);
+        }
     }
 }
