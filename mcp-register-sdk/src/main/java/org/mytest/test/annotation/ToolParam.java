@@ -16,4 +16,6 @@ public @interface ToolParam {
     boolean required() default true;
 
     boolean ignore() default false;
+
+    PathParam pathParam() default @PathParam;
 }

@@ -14,4 +14,6 @@ public @interface Tool {
     String name() default "";
 
     String description() default "";
+
+    String module() default "";
 }

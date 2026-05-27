@@ -71,7 +71,7 @@ public class DefaultToolDefinition implements ToolDefinition{
             return this;
         }
 
-        public ToolDefinition build() {
+        public DefaultToolDefinition build() {
             if (!StringUtils.hasText(this.description)) {
                 Assert.hasText(this.name, "toolName cannot be null or empty");
                 this.description = ParsingUtils.reConcatenateCamelCase(this.name, " ");
