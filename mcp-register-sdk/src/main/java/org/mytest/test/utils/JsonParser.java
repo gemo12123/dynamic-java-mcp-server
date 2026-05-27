@@ -48,7 +48,7 @@ public class JsonParser {
             return OBJECT_MAPPER.readValue(json, type);
         }
         catch (JsonProcessingException ex) {
-            throw new IllegalStateException("Conversion from JSON to %s failed".formatted(type.getName()), ex);
+            throw new IllegalStateException(String.format("Conversion from JSON to %s failed", type.getName()), ex);
         }
     }
 
@@ -63,7 +63,7 @@ public class JsonParser {
             return OBJECT_MAPPER.readValue(json, OBJECT_MAPPER.constructType(type));
         }
         catch (JsonProcessingException ex) {
-            throw new IllegalStateException("Conversion from JSON to %s failed".formatted(type.getTypeName()), ex);
+            throw new IllegalStateException(String.format("Conversion from JSON to %s failed", type.getTypeName()), ex);
         }
     }
 
@@ -78,7 +78,7 @@ public class JsonParser {
             return OBJECT_MAPPER.readValue(json, type);
         }
         catch (JsonProcessingException ex) {
-            throw new IllegalStateException("Conversion from JSON to %s failed".formatted(type.getType().getTypeName()),
+            throw new IllegalStateException(String.format("Conversion from JSON to %s failed", type.getType().getTypeName()),
                     ex);
         }
     }
@@ -104,7 +104,7 @@ public class JsonParser {
         Assert.notNull(value, "value cannot be null");
         Assert.notNull(type, "type cannot be null");
 
-        var javaType = ClassUtils.resolvePrimitiveIfNecessary(type);
+        Class<?> javaType = ClassUtils.resolvePrimitiveIfNecessary(type);
 
         if (javaType == String.class) {
             return value.toString();

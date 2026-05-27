@@ -37,7 +37,7 @@ public class SpringAiSchemaModule implements Module {
      */
     @Nullable
     private String resolveDescription(MemberScope<?, ?> member) {
-        var toolParamAnnotation = member.getAnnotationConsideringFieldAndGetter(ToolParam.class);
+        ToolParam toolParamAnnotation = member.getAnnotationConsideringFieldAndGetter(ToolParam.class);
         if (toolParamAnnotation != null && StringUtils.hasText(toolParamAnnotation.description())) {
             return toolParamAnnotation.description();
         }
@@ -60,18 +60,18 @@ public class SpringAiSchemaModule implements Module {
      * option is set.
      */
     private boolean checkRequired(MemberScope<?, ?> member) {
-        var toolParamAnnotation = member.getAnnotationConsideringFieldAndGetter(ToolParam.class);
+        ToolParam toolParamAnnotation = member.getAnnotationConsideringFieldAndGetter(ToolParam.class);
         if (toolParamAnnotation != null) {
             return toolParamAnnotation.required();
         }
 
-        var propertyAnnotation = member.getAnnotationConsideringFieldAndGetter(JsonProperty.class);
+        JsonProperty propertyAnnotation = member.getAnnotationConsideringFieldAndGetter(JsonProperty.class);
         if (propertyAnnotation != null) {
             return propertyAnnotation.required();
         }
 
 
-        var nullableAnnotation = member.getAnnotationConsideringFieldAndGetter(Nullable.class);
+        Nullable nullableAnnotation = member.getAnnotationConsideringFieldAndGetter(Nullable.class);
         if (nullableAnnotation != null) {
             return false;
         }

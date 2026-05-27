@@ -3,6 +3,7 @@ package org.mytest.test.utils;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.victools.jsonschema.generator.SchemaGenerator;
 import org.mytest.test.annotation.ToolParam;
@@ -99,7 +100,7 @@ public class JsonSchemaGenerator {
             properties.set(parameterName, parameterNode);
         }
 
-        var requiredArray = schema.putArray("required");
+        ArrayNode requiredArray = schema.putArray("required");
         required.forEach(requiredArray::add);
 
         processSchemaOptions(schemaOptions, schema);
@@ -149,17 +150,17 @@ public class JsonSchemaGenerator {
     private static boolean isMethodParameterRequired(Method method, int index) {
         Parameter parameter = method.getParameters()[index];
 
-        var toolParamAnnotation = parameter.getAnnotation(ToolParam.class);
+        ToolParam toolParamAnnotation = parameter.getAnnotation(ToolParam.class);
         if (toolParamAnnotation != null) {
             return toolParamAnnotation.required();
         }
 
-        var propertyAnnotation = parameter.getAnnotation(JsonProperty.class);
+        JsonProperty propertyAnnotation = parameter.getAnnotation(JsonProperty.class);
         if (propertyAnnotation != null) {
             return propertyAnnotation.required();
         }
 
-        var nullableAnnotation = parameter.getAnnotation(Nullable.class);
+        Nullable nullableAnnotation = parameter.getAnnotation(Nullable.class);
         if (nullableAnnotation != null) {
             return false;
         }
@@ -182,12 +183,12 @@ public class JsonSchemaGenerator {
     private static String getMethodParameterDescription(Method method, int index) {
         Parameter parameter = method.getParameters()[index];
 
-        var toolParamAnnotation = parameter.getAnnotation(ToolParam.class);
+        ToolParam toolParamAnnotation = parameter.getAnnotation(ToolParam.class);
         if (toolParamAnnotation != null && StringUtils.hasText(toolParamAnnotation.description())) {
             return toolParamAnnotation.description();
         }
 
-        var jacksonAnnotation = parameter.getAnnotation(JsonPropertyDescription.class);
+        JsonPropertyDescription jacksonAnnotation = parameter.getAnnotation(JsonPropertyDescription.class);
         if (jacksonAnnotation != null && StringUtils.hasText(jacksonAnnotation.value())) {
             return jacksonAnnotation.value();
         }
