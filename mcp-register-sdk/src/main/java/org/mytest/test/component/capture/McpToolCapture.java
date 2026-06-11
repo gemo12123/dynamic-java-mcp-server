@@ -3,12 +3,13 @@ package org.mytest.test.component.capture;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.mytest.test.annotation.Tool;
-import org.mytest.test.definition.DefaultToolDefinition;
-import org.mytest.test.definition.PathParamDefinition;
-import org.mytest.test.definition.ToolDefinition;
-import org.mytest.test.definition.ToolDefinitionWrapper;
+import org.mytest.test.common.definition.DefaultToolDefinition;
+import org.mytest.test.common.definition.PathParamDefinition;
+import org.mytest.test.common.definition.ToolDefinition;
+import org.mytest.test.common.definition.ToolDefinitionWrapper;
 import org.mytest.test.utils.JsonParser;
 import org.mytest.test.utils.ToolParamUtils;
+import org.mytest.test.utils.ToolUtils;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -131,7 +132,7 @@ public class McpToolCapture implements SmartInitializingSingleton {
                 }
             }
 
-            DefaultToolDefinition toolDefinition = ToolDefinition.from(method);
+            DefaultToolDefinition toolDefinition = ToolUtils.buildDefaultToolDefinitionFromMethod(method);
             RequestMethod requestMethod = requestMapping.method()[0];
             ToolDefinitionWrapper toolDefinitionWrapper = ToolDefinitionWrapper.builder()
                     .requestMethod(String.valueOf(requestMethod))

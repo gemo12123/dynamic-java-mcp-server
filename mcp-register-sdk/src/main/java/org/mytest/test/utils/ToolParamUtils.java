@@ -2,7 +2,7 @@ package org.mytest.test.utils;
 
 import org.mytest.test.annotation.PathParam;
 import org.mytest.test.annotation.ToolParam;
-import org.mytest.test.definition.PathParamDefinition;
+import org.mytest.test.common.definition.PathParamDefinition;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;

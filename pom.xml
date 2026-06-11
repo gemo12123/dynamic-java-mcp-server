@@ -11,6 +11,7 @@
     <modules>
         <module>webmvc-dynamic-mcp-server</module>
         <module>mcp-register-sdk</module>
+        <module>common</module>
     </modules>
 
     <properties>

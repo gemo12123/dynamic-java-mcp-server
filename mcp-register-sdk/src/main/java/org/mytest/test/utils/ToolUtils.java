@@ -1,6 +1,7 @@
 package org.mytest.test.utils;
 
 import org.mytest.test.annotation.Tool;
+import org.mytest.test.common.definition.DefaultToolDefinition;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -45,7 +46,7 @@ public class ToolUtils {
         Assert.notNull(method, "method cannot be null");
         Tool tool = method.getAnnotation(Tool.class);
         if (tool == null) {
-            return ParsingUtils.reConcatenateCamelCase(method.getName(), " ");
+            return org.mytest.test.common.utils.ParsingUtils.reConcatenateCamelCase(method.getName(), " ");
         }
 
         return StringUtils.hasText(tool.description()) ? tool.description() : method.getName();
@@ -53,7 +54,7 @@ public class ToolUtils {
 
     public static String getToolDescriptionFromName(String toolName) {
         Assert.notNull(toolName, "toolName cannot be null");
-        return ParsingUtils.reConcatenateCamelCase(toolName, " ");
+        return org.mytest.test.common.utils.ParsingUtils.reConcatenateCamelCase(toolName, " ");
     }
 
     public static boolean isWrapperOrStringType(Class<?> clazz) {
@@ -62,5 +63,14 @@ public class ToolUtils {
 
     public static boolean isCollectionOrMapType(Class<?> clazz) {
         return Collection.class.isAssignableFrom(clazz) || Map.class.isAssignableFrom(clazz);
+    }
+
+
+    public static DefaultToolDefinition buildDefaultToolDefinitionFromMethod(Method method){
+        return DefaultToolDefinition.builder()
+                .name(ToolUtils.getToolName(method))
+                .description(ToolUtils.getToolDescription(method))
+                .inputSchema(JsonSchemaGenerator.generateForMethodInput(method))
+                .build();
     }
 }

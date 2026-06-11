@@ -1,4 +1,4 @@
-package org.mytest.test.definition;
+package org.mytest.test.common.definition;
 
 import lombok.Builder;
 import lombok.Data;

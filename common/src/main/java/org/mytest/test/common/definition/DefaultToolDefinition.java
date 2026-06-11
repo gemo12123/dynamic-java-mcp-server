@@ -1,7 +1,7 @@
-package org.mytest.test.definition;
+package org.mytest.test.common.definition;
 
 import lombok.Data;
-import org.mytest.test.utils.ParsingUtils;
+import org.mytest.test.common.utils.ParsingUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 

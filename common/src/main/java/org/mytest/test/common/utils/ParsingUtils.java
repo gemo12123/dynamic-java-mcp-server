@@ -1,4 +1,4 @@
-package org.mytest.test.utils;
+package org.mytest.test.common.utils;
 
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
