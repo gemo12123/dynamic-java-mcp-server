@@ -1,6 +1,7 @@
 package org.mytest.test.service;
 
-import org.mytest.test.definition.ServiceInstance;
+
+import org.mytest.test.common.definition.ServiceInstance;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +15,9 @@ public interface ServiceManager {
      * 注册服务
      *
      * @param moduleId
-     * @param serviceInstances
+     * @param serviceInstance
      */
-    void register(String moduleId, List<ServiceInstance> serviceInstances);
+    void register(String moduleId, ServiceInstance serviceInstance);
 
     /**
      * 注销指定模块

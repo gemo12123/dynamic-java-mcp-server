@@ -1,18 +1,26 @@
 package org.mytest.test.coordinator;
 
-import org.mytest.test.definition.ModuleDefinition;
+import io.modelcontextprotocol.spec.McpServerTransportProvider;
+import org.mytest.test.common.definition.ModuleDefinition;
+import org.mytest.test.common.definition.ServiceInstance;
+import org.springframework.web.servlet.function.RouterFunction;
+import org.springframework.web.servlet.function.ServerResponse;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author gemo
  */
-public interface McpRegisterCoordinator {
+public interface McpRegisterCoordinator<T> {
 
     /**
      * 注册模块
      *
-     * @param moduleDefinition
+     * @param moduleDefinitionMap
+     * @param serviceInstanceMap
      */
-    void register(ModuleDefinition moduleDefinition);
+    void register(Map<String, ModuleDefinition> moduleDefinitionMap, Map<String, ServiceInstance> serviceInstanceMap);
 
     /**
      * 初始化
@@ -25,4 +33,31 @@ public interface McpRegisterCoordinator {
      * @param moduleId
      */
     void invalidate(String moduleId);
+
+    /**
+     * 获取全部 McpServer
+     *
+     * @return
+     */
+    List<T> getMcpServers();
+
+    /**
+     * 获取全部 McpServerTransportProvider
+     *
+     * @return
+     */
+    List<McpServerTransportProvider> getMcpServerTransportProviders();
+
+    interface ModuleServerRecord<T> {
+
+        ModuleDefinition getModuleDefinition();
+
+        void setModuleDefinition(ModuleDefinition definition);
+
+        McpServerTransportProvider getTransportProvider();
+
+        T getServer();
+
+        RouterFunction<ServerResponse> getRouterFunction();
+    }
 }

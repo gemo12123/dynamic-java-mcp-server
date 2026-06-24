@@ -14,7 +14,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.mytest.test.definition.ToolDefinitionWrapper;
+import org.mytest.test.common.definition.ToolDefinitionWrapper;
 import org.mytest.test.service.ServiceManager;
 import org.springframework.http.HttpMethod;
 
