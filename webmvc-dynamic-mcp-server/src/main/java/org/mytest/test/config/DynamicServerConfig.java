@@ -34,7 +34,7 @@ public class DynamicServerConfig {
     }
 
     @Configuration
-    @ConditionalOnProperty(name = "dynamic.mcp.mode", havingValue = "cli")
+    @ConditionalOnProperty(name = "dynamic-mcp-server.mode", havingValue = "cli")
 //    @EnableAutoConfiguration(exclude = {EurekaClientAutoConfiguration.class,EurekaDiscoveryClientConfiguration.class})
     protected static class McpLocalConfiguration {
         @Bean

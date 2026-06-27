@@ -1,7 +1,5 @@
 package org.mytest.test.router;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.function.*;
 
 import java.util.Map;
@@ -11,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author gemo
  */
-@Component
 public class DefaultMcpRouter implements McpRouter {
 
     private static final RouterFunction<ServerResponse> DEFAULT_ROUTER = RouterFunctions.route()
