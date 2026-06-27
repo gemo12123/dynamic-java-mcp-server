@@ -78,7 +78,7 @@ public class McpReportTask implements ApplicationRunner {
 
     private void doReport(String requestPath) {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            HttpPost postRequest = new HttpPost();
+            HttpPost postRequest = new HttpPost(requestPath);
             postRequest.setHeader("Content-Type", "application/json; charset=utf-8");
             postRequest.setEntity(new StringEntity(this.reportContent, ContentType.APPLICATION_JSON));
             try (CloseableHttpResponse response = httpClient.execute(postRequest)) {

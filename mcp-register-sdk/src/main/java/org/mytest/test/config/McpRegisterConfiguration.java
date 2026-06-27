@@ -32,7 +32,7 @@ public class McpRegisterConfiguration {
     @ConditionalOnMissingBean
     @ConditionalOnProperty(name = "dynamic.mcp.register.report-configuration.address-source", havingValue = "fixed")
     public AddressProvider fixedAddressProvider(DynamicMcpRegisterProperties properties) {
-        return new FixedAddressProvider();
+        return new FixedAddressProvider(properties);
     }
 
     @Bean
