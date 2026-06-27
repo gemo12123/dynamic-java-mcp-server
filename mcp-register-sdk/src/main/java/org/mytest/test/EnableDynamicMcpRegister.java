@@ -12,5 +12,5 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Documented
 @Import(McpRegisterConfiguration.class)
-public @interface EnableMcpRegister {
+public @interface EnableDynamicMcpRegister {
 }

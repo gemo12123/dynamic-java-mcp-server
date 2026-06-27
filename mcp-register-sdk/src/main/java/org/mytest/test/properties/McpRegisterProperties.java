@@ -10,7 +10,7 @@ import java.util.Map;
  * @date 2025/11/28 16:20
  */
 @Data
-@ConfigurationProperties(prefix = "mcp.register")
+@ConfigurationProperties(prefix = "dynamic.mcp.register")
 public class McpRegisterProperties {
     private boolean enabled = true;
 
