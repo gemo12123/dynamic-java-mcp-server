@@ -15,6 +15,9 @@ public class DefaultToolDefinition implements ToolDefinition{
     private String description;
     private String inputSchema;
 
+    public DefaultToolDefinition() {
+    }
+
     public DefaultToolDefinition(String name, String description, String inputSchema) {
         Assert.hasText(name, "name cannot be null or empty");
         Assert.hasText(description, "description cannot be null or empty");
