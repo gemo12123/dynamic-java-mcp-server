@@ -11,7 +11,7 @@ import java.util.Map;
  */
 @Data
 @ConfigurationProperties(prefix = "dynamic.mcp.register")
-public class McpRegisterProperties {
+public class DynamicMcpRegisterProperties {
     private boolean enabled = true;
 
     private String moduleId;

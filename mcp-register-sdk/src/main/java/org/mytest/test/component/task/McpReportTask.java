@@ -15,7 +15,7 @@ import org.mytest.test.common.definition.ModuleDefinition;
 import org.mytest.test.common.definition.ServiceInstance;
 import org.mytest.test.common.definition.ServiceReportInfo;
 import org.mytest.test.common.definition.ToolDefinitionWrapper;
-import org.mytest.test.properties.McpRegisterProperties;
+import org.mytest.test.properties.DynamicMcpRegisterProperties;
 import org.mytest.test.utils.JsonParser;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -41,13 +41,13 @@ public class McpReportTask implements ApplicationRunner {
 
     private final McpToolCapture mcpToolCapture;
 
-    private final McpRegisterProperties properties;
+    private final DynamicMcpRegisterProperties properties;
 
     private final ServerProperties serverProperties;
 
     private volatile String reportContent;
 
-    public McpReportTask(AddressProvider addressProvider, McpToolCapture mcpToolCapture, McpRegisterProperties properties, ServerProperties serverProperties) {
+    public McpReportTask(AddressProvider addressProvider, McpToolCapture mcpToolCapture, DynamicMcpRegisterProperties properties, ServerProperties serverProperties) {
         this.addressProvider = addressProvider;
         this.mcpToolCapture = mcpToolCapture;
         this.properties = properties;
@@ -124,7 +124,7 @@ public class McpReportTask implements ApplicationRunner {
 
                     ServiceInstance serviceInstance = new ServiceInstance();
                     serviceInstance.setPort(Optional.ofNullable(properties.getReportConfiguration())
-                            .map(McpRegisterProperties.ReportConfiguration::getServicePort)
+                            .map(DynamicMcpRegisterProperties.ReportConfiguration::getServicePort)
                             .orElseGet(() -> Optional.ofNullable(serverProperties.getPort()).orElse(8080)));
                     serviceInstance.setContextPath(Optional.ofNullable(serverProperties.getServlet())
                             .map(ServerProperties.Servlet::getContextPath)
@@ -150,7 +150,7 @@ public class McpReportTask implements ApplicationRunner {
         if (StringUtils.hasText(module)) {
             return Optional.ofNullable(this.properties.getModuleConfiguration())
                     .map(item -> item.get(module))
-                    .map(McpRegisterProperties.ModuleInfo::getModuleId)
+                    .map(DynamicMcpRegisterProperties.ModuleInfo::getModuleId)
                     .orElseThrow(() -> new IllegalArgumentException("Cannot find " + module + " module define!"));
         }
         return this.properties.getModuleId();
@@ -160,7 +160,7 @@ public class McpReportTask implements ApplicationRunner {
         if (StringUtils.hasText(module)) {
             return Optional.ofNullable(this.properties.getModuleConfiguration())
                     .map(item -> item.get(module))
-                    .map(McpRegisterProperties.ModuleInfo::getModuleName)
+                    .map(DynamicMcpRegisterProperties.ModuleInfo::getModuleName)
                     .orElseThrow(() -> new IllegalArgumentException("Cannot find " + module + " module define!"));
         }
         return this.properties.getModuleName();
@@ -170,7 +170,7 @@ public class McpReportTask implements ApplicationRunner {
         if (StringUtils.hasText(module)) {
             return Optional.ofNullable(this.properties.getModuleConfiguration())
                     .map(item -> item.get(module))
-                    .map(McpRegisterProperties.ModuleInfo::getModuleDescription)
+                    .map(DynamicMcpRegisterProperties.ModuleInfo::getModuleDescription)
                     .orElse(null);
         }
         return this.properties.getModuleDescription();
@@ -180,7 +180,7 @@ public class McpReportTask implements ApplicationRunner {
         if (StringUtils.hasText(module)) {
             return Optional.ofNullable(this.properties.getModuleConfiguration())
                     .map(item -> item.get(module))
-                    .map(McpRegisterProperties.ModuleInfo::getModuleVersion)
+                    .map(DynamicMcpRegisterProperties.ModuleInfo::getModuleVersion)
                     .orElse("1.0.0");
         }
         return Optional.ofNullable(this.properties.getModuleVersion())
