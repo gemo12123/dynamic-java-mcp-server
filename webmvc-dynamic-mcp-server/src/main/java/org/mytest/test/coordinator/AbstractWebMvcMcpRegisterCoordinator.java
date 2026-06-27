@@ -35,7 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2026/6/24 17:36
  */
 @Slf4j
-public class AbstractWebMvcMcpRegisterCoordinator implements McpRegisterCoordinator<McpSyncServer>{
+public abstract class AbstractWebMvcMcpRegisterCoordinator implements McpRegisterCoordinator<McpSyncServer>{
 
     private static final String ROOT_CONTEXT_PATH = "/dynamic-mcp";
 
@@ -113,12 +113,6 @@ public class AbstractWebMvcMcpRegisterCoordinator implements McpRegisterCoordina
                 serviceManager.register(moduleId, serviceInstanceMap.get(moduleId));
             }
         }
-    }
-
-
-    @Override
-    public void initialize() {
-
     }
 
     @Override

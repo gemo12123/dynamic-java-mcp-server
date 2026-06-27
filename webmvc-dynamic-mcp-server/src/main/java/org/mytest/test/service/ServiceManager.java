@@ -1,9 +1,11 @@
 package org.mytest.test.service;
 
 
+import com.google.common.collect.Multimap;
 import org.mytest.test.common.definition.ServiceInstance;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -33,4 +35,13 @@ public interface ServiceManager {
      * @return
      */
     Optional<ServiceInstance> getServiceInstance(String moduleId);
+
+    /**
+     * 获取全部服务实例及其末次访问时间
+     *
+     * @return
+     */
+    Map<String, Map<ServiceInstance, Long>> getServiceInstancesWithLastVisitTime();
+
+    void removeServiceInstances(Multimap<String, ServiceInstance> serviceInstances);
 }

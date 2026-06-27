@@ -42,10 +42,8 @@ public class DefaultMcpRouter implements McpRouter {
 
     @Override
     public void invalidate(String moduleId) {
-        if (StringUtils.isNotEmpty(moduleId)) {
-            ROUTER_CACHE.remove(moduleId);
-        }
-
+        ROUTER_CACHE.remove(moduleId);
+        redirect();
     }
 
 }
