@@ -18,5 +18,6 @@ public class ToolDefinitionWrapper {
     private String requestMethod;
     private String requestPath;
     private List<PathParamDefinition> pathParams;
+    private StructResponseDefinition structResponseDefinition;
     private DefaultToolDefinition toolDefinition;
 }

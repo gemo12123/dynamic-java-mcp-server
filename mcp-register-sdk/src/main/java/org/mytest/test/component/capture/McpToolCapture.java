@@ -3,10 +3,10 @@ package org.mytest.test.component.capture;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.mytest.test.annotation.Tool;
-import org.mytest.test.common.definition.DefaultToolDefinition;
-import org.mytest.test.common.definition.PathParamDefinition;
-import org.mytest.test.common.definition.ToolDefinition;
-import org.mytest.test.common.definition.ToolDefinitionWrapper;
+import org.mytest.test.annotation.response.DataField;
+import org.mytest.test.annotation.response.StatusField;
+import org.mytest.test.annotation.response.StructResponse;
+import org.mytest.test.common.definition.*;
 import org.mytest.test.utils.JsonParser;
 import org.mytest.test.utils.ToolParamUtils;
 import org.mytest.test.utils.ToolUtils;
@@ -20,6 +20,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
@@ -132,17 +133,56 @@ public class McpToolCapture implements SmartInitializingSingleton {
                 }
             }
 
+            StructResponseDefinition structResponseDefinition = null;
+            if (tool.removeStructResponse()) {
+                structResponseDefinition = tryParseStructResponse(method);
+            }
+
             DefaultToolDefinition toolDefinition = ToolUtils.buildDefaultToolDefinitionFromMethod(method);
             RequestMethod requestMethod = requestMapping.method()[0];
             ToolDefinitionWrapper toolDefinitionWrapper = ToolDefinitionWrapper.builder()
                     .requestMethod(String.valueOf(requestMethod))
                     .requestPath(requestPath)
                     .pathParams(pathParamDefinitions)
+                    .structResponseDefinition(structResponseDefinition)
                     .toolDefinition(toolDefinition)
                     .build();
             this.moduleToolDefinitions.computeIfAbsent(tool.module(), k -> new CopyOnWriteArrayList<>()).add(toolDefinitionWrapper);
             this.toolDefinitions.put(clazz.getName() + "#" + method.getName(), toolDefinitionWrapper);
         }
+    }
+
+    private StructResponseDefinition tryParseStructResponse(Method method) {
+        Class<?> returnType = method.getReturnType();
+        if (returnType.isPrimitive() || ToolUtils.isWrapperOrStringType(returnType)) {
+            return null;
+        }
+        StructResponse structResponseAnnotation = returnType.getAnnotation(StructResponse.class);
+        if (structResponseAnnotation == null) {
+            return null;
+        }
+
+        StructResponseDefinition structResponseDefinition = new StructResponseDefinition();
+        structResponseDefinition.setRemoveStructResponse(true);
+        Field[] declaredFields = returnType.getDeclaredFields();
+        for (Field declaredField : declaredFields) {
+            String fieldName = declaredField.getName();
+
+            StatusField statusFieldAnnotation = declaredField.getAnnotation(StatusField.class);
+            if (statusFieldAnnotation != null) {
+                String expectValue = statusFieldAnnotation.expect();
+                if (StringUtils.hasText(expectValue)) {
+                    structResponseDefinition.setStatusField(fieldName);
+                    structResponseDefinition.setStatusExpectValue(expectValue);
+                }
+            }
+
+            DataField dataFieldAnnotation = declaredField.getAnnotation(DataField.class);
+            if (dataFieldAnnotation != null) {
+                structResponseDefinition.setDataField(fieldName);
+            }
+        }
+        return structResponseDefinition;
     }
 
 
