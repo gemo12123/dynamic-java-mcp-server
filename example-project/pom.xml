@@ -54,7 +54,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <proc>full</proc>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
@@ -65,6 +64,9 @@
                             <version>1.18.42</version>
                         </path>
                     </annotationProcessorPaths>
+                    <jdkToolchain>
+                        <version>8</version>
+                    </jdkToolchain>
                     <compilerArgs>
                         <arg>-parameters</arg>
                     </compilerArgs>
