@@ -2,8 +2,6 @@ package org.mytest.test.common.definition;
 
 import lombok.Data;
 import org.mytest.test.common.utils.ParsingUtils;
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 /**
  * @author gemo
@@ -19,10 +17,6 @@ public class DefaultToolDefinition implements ToolDefinition{
     }
 
     public DefaultToolDefinition(String name, String description, String inputSchema) {
-        Assert.hasText(name, "name cannot be null or empty");
-        Assert.hasText(description, "description cannot be null or empty");
-        Assert.hasText(inputSchema, "inputSchema cannot be null or empty");
-
         this.name = name;
         this.description = description;
         this.inputSchema = inputSchema;
@@ -75,8 +69,7 @@ public class DefaultToolDefinition implements ToolDefinition{
         }
 
         public DefaultToolDefinition build() {
-            if (!StringUtils.hasText(this.description)) {
-                Assert.hasText(this.name, "toolName cannot be null or empty");
+            if (this.description != null && !this.description.isEmpty()) {
                 this.description = ParsingUtils.reConcatenateCamelCase(this.name, " ");
             }
             return new DefaultToolDefinition(this.name, this.description, this.inputSchema);

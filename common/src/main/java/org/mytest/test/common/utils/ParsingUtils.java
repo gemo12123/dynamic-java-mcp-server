@@ -1,11 +1,6 @@
 package org.mytest.test.common.utils;
 
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -53,16 +48,33 @@ public class ParsingUtils {
      */
     public static String reConcatenateCamelCase(String source, String delimiter) {
 
-        Assert.notNull(source, "Source string must not be null");
-        Assert.notNull(delimiter, "Delimiter must not be null");
+        return collectionToDelimitedString(splitCamelCaseToLower(source), delimiter, "", "");
+    }
 
-        return StringUtils.collectionToDelimitedString(splitCamelCaseToLower(source), delimiter);
+    public static String collectionToDelimitedString(
+            Collection<?> coll, String delim, String prefix, String suffix) {
+
+        if (coll==null || coll.isEmpty()) {
+            return "";
+        }
+
+        int totalLength = coll.size() * (prefix.length() + suffix.length()) + (coll.size() - 1) * delim.length();
+        for (Object element : coll) {
+            totalLength += String.valueOf(element).length();
+        }
+
+        StringBuilder sb = new StringBuilder(totalLength);
+        Iterator<?> it = coll.iterator();
+        while (it.hasNext()) {
+            sb.append(prefix).append(it.next()).append(suffix);
+            if (it.hasNext()) {
+                sb.append(delim);
+            }
+        }
+        return sb.toString();
     }
 
     private static List<String> split(String source, boolean toLower) {
-
-        Assert.notNull(source, "Source string must not be null");
-
         String[] parts = CAMEL_CASE.split(source);
         List<String> result = new ArrayList<>(parts.length);
 
