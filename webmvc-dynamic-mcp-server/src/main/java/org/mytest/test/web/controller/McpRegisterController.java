@@ -16,7 +16,7 @@ import java.util.Map;
  * @date 2026/6/11 16:33
  */
 @RestController
-@RequestMapping("/mcp")
+@RequestMapping("/dynamic-mcp-server/mcp")
 public class McpRegisterController {
     @Autowired
     private McpRegisterService mcpRegisterService;

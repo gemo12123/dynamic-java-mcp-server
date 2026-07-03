@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public abstract class AbstractWebMvcMcpRegisterCoordinator implements McpRegisterCoordinator<McpSyncServer>{
 
-    private static final String ROOT_CONTEXT_PATH = "/dynamic-mcp";
+    private static final String ROOT_CONTEXT_PATH = "/dynamic-mcp-server";
 
     private static final String SSE_ENDPOINT_TEMPLATE = "%s/sse/%s";
     private static final String SSE_MESSAGE_ENDPOINT_TEMPLATE = "%s/mcp/message/%s";
