@@ -204,7 +204,7 @@ http://127.0.0.1:8080/dynamic-mcp-server/mcp/register
 
 ### 4. 验证注册是否成功
 
-`example-project` 当前按能力拆分为 4 组样例：
+`example-project` 当前同时包含默认模块样例和同一服务内的第二模块样例：
 
 - `BasicHttpExampleController`
   - `GET /examples/basic/hello`
@@ -219,6 +219,9 @@ http://127.0.0.1:8080/dynamic-mcp-server/mcp/register
   - `GET /examples/struct/wrapped`
 - `ComprehensiveExampleController`
   - `POST /examples/comprehensive/projects/{projectId}/tasks/{taskId}/submit`
+- `SecondaryModuleExampleController`
+  - `POST /examples/secondary/workspaces/{workspaceId}/jobs/{jobId}/dispatch`
+  - `@Tool(module = "secondary")`，注册到同一服务中的第二个模块
 
 对应源码见：
 
@@ -226,6 +229,7 @@ http://127.0.0.1:8080/dynamic-mcp-server/mcp/register
 - [example-project/src/main/java/org/mytest/test/controller/PathParamExampleController.java](E:/my_project/dynamic-java-mcp-server/example-project/src/main/java/org/mytest/test/controller/PathParamExampleController.java)
 - [example-project/src/main/java/org/mytest/test/controller/StructResponseExampleController.java](E:/my_project/dynamic-java-mcp-server/example-project/src/main/java/org/mytest/test/controller/StructResponseExampleController.java)
 - [example-project/src/main/java/org/mytest/test/controller/ComprehensiveExampleController.java](E:/my_project/dynamic-java-mcp-server/example-project/src/main/java/org/mytest/test/controller/ComprehensiveExampleController.java)
+- [example-project/src/main/java/org/mytest/test/controller/SecondaryModuleExampleController.java](E:/my_project/dynamic-java-mcp-server/example-project/src/main/java/org/mytest/test/controller/SecondaryModuleExampleController.java)
 
 如果示例项目启动后完成注册，动态服务端会按 `moduleId=example-project` 为它生成独立的 MCP SSE 端点：
 
@@ -234,7 +238,7 @@ SSE endpoint:     http://127.0.0.1:8080/dynamic-mcp-server/sse/example-project
 Message endpoint: http://127.0.0.1:8080/dynamic-mcp-server/mcp/message/example-project
 ```
 
-到这一步，MCP Client 就可以连接该 SSE 地址，看到 `example-project` 当前注册出来的工具集合。
+到这一步，MCP Client 就可以连接默认模块的 SSE 地址，看到 `example-project` 当前注册出来的工具集合。对于第二模块，还会额外生成基于 `moduleId=example-project-secondary` 的独立 SSE / message 端点。
 
 ### 5. 验证原始 HTTP 服务是否可用
 
@@ -265,6 +269,7 @@ hello dynamic mcp
 - `@ToolParam` + `@PathParam` 的路径占位符映射
 - `@StructResponse`、`@StatusField`、`@DataField` 的结构化响应拆包与保留包装
 - 路径参数、请求体、结构化响应组合在同一个工具中的综合样例
+- 同一业务服务中通过 `@Tool(module = ...)` 定义第二模块并独立注册
 
 这正是这个方案的核心价值：
 
