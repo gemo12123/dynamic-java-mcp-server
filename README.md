@@ -204,14 +204,28 @@ http://127.0.0.1:8080/dynamic-mcp-server/mcp/register
 
 ### 4. 验证注册是否成功
 
-示例项目当前暴露了两个 HTTP 接口：
+`example-project` 当前按能力拆分为 4 组样例：
 
-- `GET /hello-world`
-- `POST /hello-world-post`
+- `BasicHttpExampleController`
+  - `GET /examples/basic/hello`
+  - `POST /examples/basic/echo`
+  - `PUT /examples/basic/resources`
+  - `DELETE /examples/basic/resources?resourceId=...`
+- `PathParamExampleController`
+  - `GET /examples/path/resources/{resourceId}`
+  - `GET /examples/path/teams/{teamId}/resources/{resourceId}`
+- `StructResponseExampleController`
+  - `GET /examples/struct/unwrapped`
+  - `GET /examples/struct/wrapped`
+- `ComprehensiveExampleController`
+  - `POST /examples/comprehensive/projects/{projectId}/tasks/{taskId}/submit`
 
 对应源码见：
 
-- [example-project/src/main/java/org/mytest/test/controller/ExampleController.java](E:/my_project/dynamic-java-mcp-server/example-project/src/main/java/org/mytest/test/controller/ExampleController.java)
+- [example-project/src/main/java/org/mytest/test/controller/BasicHttpExampleController.java](E:/my_project/dynamic-java-mcp-server/example-project/src/main/java/org/mytest/test/controller/BasicHttpExampleController.java)
+- [example-project/src/main/java/org/mytest/test/controller/PathParamExampleController.java](E:/my_project/dynamic-java-mcp-server/example-project/src/main/java/org/mytest/test/controller/PathParamExampleController.java)
+- [example-project/src/main/java/org/mytest/test/controller/StructResponseExampleController.java](E:/my_project/dynamic-java-mcp-server/example-project/src/main/java/org/mytest/test/controller/StructResponseExampleController.java)
+- [example-project/src/main/java/org/mytest/test/controller/ComprehensiveExampleController.java](E:/my_project/dynamic-java-mcp-server/example-project/src/main/java/org/mytest/test/controller/ComprehensiveExampleController.java)
 
 如果示例项目启动后完成注册，动态服务端会按 `moduleId=example-project` 为它生成独立的 MCP SSE 端点：
 
@@ -224,17 +238,33 @@ Message endpoint: http://127.0.0.1:8080/dynamic-mcp-server/mcp/message/example-p
 
 ### 5. 验证原始 HTTP 服务是否可用
 
-示例项目本身仍然保留原有 HTTP 接口能力，可以直接访问：
+示例项目本身仍然保留原有 HTTP 接口能力，可以直接访问下面几个代表性地址：
 
 ```text
-GET http://127.0.0.1:8888/hello-world
+GET    http://127.0.0.1:8888/examples/basic/hello
+GET    http://127.0.0.1:8888/examples/path/resources/alpha
+GET    http://127.0.0.1:8888/examples/struct/wrapped
+POST   http://127.0.0.1:8888/examples/comprehensive/projects/demo/tasks/T-100/submit
+```
+
+例如访问：
+
+```text
+GET http://127.0.0.1:8888/examples/basic/hello
 ```
 
 预期返回：
 
 ```text
-hello world!
+hello dynamic mcp
 ```
+
+`example-project` 现在覆盖的能力包括：
+
+- 基础工具暴露与 `GET` / `POST` / `PUT` / `DELETE` HTTP 方法转发
+- `@ToolParam` + `@PathParam` 的路径占位符映射
+- `@StructResponse`、`@StatusField`、`@DataField` 的结构化响应拆包与保留包装
+- 路径参数、请求体、结构化响应组合在同一个工具中的综合样例
 
 这正是这个方案的核心价值：
 
