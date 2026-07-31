@@ -155,7 +155,14 @@ public class HttpExecutor implements BiFunction<McpSyncServerExchange, Map<Strin
     private URI generateUri(String path, Map<String, Object> params) throws URISyntaxException {
         URIBuilder uriBuilder = new URIBuilder(path);
         for (String requestParam : requestParams) {
-            uriBuilder.addParameter(requestParam, String.valueOf(params.get(requestParam)));
+            Object paramValue = params.get(requestParam);
+            if (paramValue instanceof Map<?, ?> mapParamValue) {
+                for (Map.Entry<?, ?> entry : mapParamValue.entrySet()) {
+                    uriBuilder.addParameter(String.valueOf(entry.getKey()), String.valueOf(entry.getValue()));
+                }
+                continue;
+            }
+            uriBuilder.addParameter(requestParam, String.valueOf(paramValue));
         }
         return uriBuilder.build();
     }
